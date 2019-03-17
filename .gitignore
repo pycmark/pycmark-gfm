@@ -1,0 +1,13 @@
+*.pyc
+*.egg
+*.so
+*.swp
+
+.DS_Store
+.mypy_cache/
+.tags
+.tox/
+
+build/
+dist/
+sphinxcontrib_pycmark-gfm.egg-info/

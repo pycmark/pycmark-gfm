@@ -1,0 +1,28 @@
+language: python
+sudo: false
+dist: xenial
+cache: pip
+env:
+  global:
+    - TEST='-v --durations 25'
+    - PYTHONFAULTHANDLER=x
+    - PYTHONWARNINGS=all
+matrix:
+  include:
+    - python: "3.5"
+      env: TOXENV=py35
+    - python: "3.6"
+      env: TOXENV=py36
+    - python: "3.7"
+      env: TOXENV=py37
+    - python: nightly
+      env: TOXENV=py38
+    - python: "3.7"
+      env: TOXENV=flake8
+    - python: "3.7"
+      env: TOXENV=mypy
+install:
+  - pip install -U pip tox
+  - pip install .
+script:
+  - tox -- -v

@@ -1,0 +1,7 @@
+include README.md
+include LICENSE
+include CHANGES
+
+include tox.ini
+
+recursive-include tests *
