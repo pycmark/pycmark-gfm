@@ -69,6 +69,8 @@ from pycmark.transforms import (
     TextNodeConnector,
 )
 
+from pycmark_gfm.blockparser.table_processors import TableProcessor
+
 
 class GFMParser(Parser):
     """GitHub Flavored Markdown parser for docutils."""
@@ -96,6 +98,7 @@ class GFMParser(Parser):
             NonEmptyBulletListProcessor,
             OrderedListProcessor,
             OneBasedOrderedListProcessor,
+            TableProcessor,
             ParagraphProcessor,
         ]
 
