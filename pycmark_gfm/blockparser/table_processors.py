@@ -90,9 +90,11 @@ class TableProcessor(PatternBlockProcessor):
 
         row = nodes.row()
         for i, cell in enumerate(header):
+            text = cell.strip()
             entry = nodes.entry()
             location.set_source_info(entry)
-            entry += nodes.paragraph(cell.strip(), cell.strip())
+            if text:
+                entry += nodes.paragraph(text, text)
             if aligns[i]:
                 entry['align'] = aligns[i]
             row += entry
@@ -118,7 +120,8 @@ class TableProcessor(PatternBlockProcessor):
                             text = ''
 
                         entry = nodes.entry()
-                        entry += nodes.paragraph(text, text)
+                        if text:
+                            entry += nodes.paragraph(text, text)
                         entry.source, entry.line = reader.get_source_and_line()
                         if align:
                             entry['align'] = align
