@@ -98,3 +98,11 @@ def test_example_195():
                                                              [nodes.entry, nodes.paragraph, "baz"])],
                                                 [nodes.row, ([nodes.entry, nodes.paragraph, "bar"],
                                                              nodes.entry)])])
+
+
+def test_example_196():
+    text = ("| abc | def |\n"
+            "| --- |\n"
+            "| bar |\n")
+    result = publish(text)
+    assert_node(result, [nodes.document, nodes.paragraph, text.strip()])
