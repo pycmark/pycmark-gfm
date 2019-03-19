@@ -9,12 +9,13 @@
 """
 
 import re
-from typing import List, Tuple
+from typing import Generator, List, Tuple
 
 from docutils import nodes
 from docutils.nodes import Element
 from pycmark.blockparser import PatternBlockProcessor
 from pycmark.readers import LineReader
+from pycmark.utils import unescape
 
 
 def align(delimiter: str) -> str:
@@ -26,6 +27,22 @@ def align(delimiter: str) -> str:
         return 'right'
     else:
         return None
+
+
+def split_row(text: str) -> Generator[str, None, None]:
+    i = 0
+    while i < len(text):
+        if text[i] == '|':
+            yield unescape(text[0:i].strip())
+            text = text[i + 1:]
+            i = 0
+        elif text[i] == '\\':
+            i += 2
+        else:
+            i += 1
+
+    if text:
+        yield unescape(text.strip())
 
 
 # 4.10 Tables
@@ -75,7 +92,7 @@ class TableProcessor(PatternBlockProcessor):
         for i, cell in enumerate(header):
             entry = nodes.entry()
             location.set_source_info(entry)
-            entry += nodes.Text(cell.strip(), cell.strip())
+            entry += nodes.paragraph(cell.strip(), cell.strip())
             if aligns[i]:
                 entry['align'] = aligns[i]
             row += entry
@@ -101,7 +118,7 @@ class TableProcessor(PatternBlockProcessor):
                             text = ''
 
                         entry = nodes.entry()
-                        entry += nodes.Text(text, text)
+                        entry += nodes.paragraph(text, text)
                         entry.source, entry.line = reader.get_source_and_line()
                         if align:
                             entry['align'] = align
@@ -114,4 +131,4 @@ class TableProcessor(PatternBlockProcessor):
 
     def parse_row(self, line: str) -> List[str]:
         line = self.sidewall_pattern.sub(r'\1', line)
-        return [item.strip() for item in line.split('|')]  # FIXME: escaped pipe
+        return list(split_row(line))

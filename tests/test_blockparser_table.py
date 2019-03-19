@@ -19,10 +19,10 @@ def test_example_191():
                                                                      nodes.colspec,
                                                                      nodes.thead,
                                                                      nodes.tbody)])
-    assert_node(result[0][0][2], [nodes.thead, nodes.row, ([nodes.entry, "foo"],
-                                                           [nodes.entry, "bar"])])
-    assert_node(result[0][0][3], [nodes.tbody, nodes.row, ([nodes.entry, "baz"],
-                                                           [nodes.entry, "bim"])])
+    assert_node(result[0][0][2], [nodes.thead, nodes.row, ([nodes.entry, nodes.paragraph, "foo"],
+                                                           [nodes.entry, nodes.paragraph, "bar"])])
+    assert_node(result[0][0][3], [nodes.tbody, nodes.row, ([nodes.entry, nodes.paragraph, "baz"],
+                                                           [nodes.entry, nodes.paragraph, "bim"])])
 
 
 def test_example_192():
@@ -34,11 +34,29 @@ def test_example_192():
                                                                      nodes.colspec,
                                                                      nodes.thead,
                                                                      nodes.tbody)])
-    assert_node(result[0][0][2], [nodes.thead, nodes.row, ([nodes.entry, "abc"],
-                                                           [nodes.entry, "defghi"])])
-    assert_node(result[0][0][3], [nodes.tbody, nodes.row, ([nodes.entry, "bar"],
-                                                           [nodes.entry, "baz"])])
+    assert_node(result[0][0][2], [nodes.thead, nodes.row, ([nodes.entry, nodes.paragraph, "abc"],
+                                                           [nodes.entry, nodes.paragraph, "defghi"])])
+    assert_node(result[0][0][3], [nodes.tbody, nodes.row, ([nodes.entry, nodes.paragraph, "bar"],
+                                                           [nodes.entry, nodes.paragraph, "baz"])])
     assert_node(result[0][0][2][0][0], align="center")
     assert_node(result[0][0][2][0][1], align="right")
     assert_node(result[0][0][3][0][0], align="center")
     assert_node(result[0][0][3][0][1], align="right")
+
+
+def test_example_193():
+    text = ("| f\\|oo  |\n"
+            "| ------ |\n"
+            "| b `\\|` az |\n"
+            "| b **\\|** im |\n")
+    result = publish(text)
+    assert_node(result, [nodes.document, nodes.table, nodes.tgroup, (nodes.colspec,
+                                                                     nodes.thead,
+                                                                     nodes.tbody)])
+    assert_node(result[0][0][1], [nodes.thead, nodes.row, nodes.entry, nodes.paragraph, "f|oo"])
+    assert_node(result[0][0][2], [nodes.tbody, ([nodes.row, nodes.entry, nodes.paragraph, ("b ",
+                                                                                           [nodes.literal, "|"],
+                                                                                           " az")],
+                                                [nodes.row, nodes.entry, nodes.paragraph, ("b ",
+                                                                                           [nodes.strong, "|"],
+                                                                                           " im")])])
