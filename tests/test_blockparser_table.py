@@ -106,3 +106,21 @@ def test_example_196():
             "| bar |\n")
     result = publish(text)
     assert_node(result, [nodes.document, nodes.paragraph, text.strip()])
+
+
+def test_example_197():
+    text = ("| abc | def |\n"
+            "| --- | --- |\n"
+            "| bar |\n"
+            "| bar | baz | boo |\n")
+    result = publish(text)
+    assert_node(result, [nodes.document, nodes.table, nodes.tgroup, (nodes.colspec,
+                                                                     nodes.colspec,
+                                                                     nodes.thead,
+                                                                     nodes.tbody)])
+    assert_node(result[0][0][2], [nodes.thead, nodes.row, ([nodes.entry, nodes.paragraph, "abc"],
+                                                           [nodes.entry, nodes.paragraph, "def"])])
+    assert_node(result[0][0][3], [nodes.tbody, ([nodes.row, ([nodes.entry, nodes.paragraph, "bar"],
+                                                             nodes.entry)],
+                                                [nodes.row, ([nodes.entry, nodes.paragraph, "bar"],
+                                                             [nodes.entry, nodes.paragraph, "baz"])])])
