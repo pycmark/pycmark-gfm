@@ -124,3 +124,14 @@ def test_example_197():
                                                              nodes.entry)],
                                                 [nodes.row, ([nodes.entry, nodes.paragraph, "bar"],
                                                              [nodes.entry, nodes.paragraph, "baz"])])])
+
+
+def test_example_198():
+    text = ("| abc | def |\n"
+            "| --- | --- |\n")
+    result = publish(text)
+    assert_node(result, [nodes.document, nodes.table, nodes.tgroup, (nodes.colspec,
+                                                                     nodes.colspec,
+                                                                     nodes.thead)])
+    assert_node(result[0][0][2], [nodes.thead, nodes.row, ([nodes.entry, nodes.paragraph, "abc"],
+                                                           [nodes.entry, nodes.paragraph, "def"])])
