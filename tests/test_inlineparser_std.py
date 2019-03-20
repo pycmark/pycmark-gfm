@@ -203,6 +203,15 @@ def test_example_609():
     assert_node(result[1][0], refuri="mailto:a.b-c_d@a.b")
 
 
+def test_example_618():
+    text = ("< a><\n"
+            "foo><bar/ >\n"
+            "<foo bar=baz\n"
+            "bim!bop />\n")
+    result = publish(text)
+    assert_node(result, [nodes.document, nodes.paragraph, text.rstrip()])
+
+
 def test_example_631():
     text = ("<strong> <title> <style> <em>\n"
             "\n"
