@@ -13,3 +13,8 @@ from utils import publish, assert_node
 def test_example_315():
     result = publish("&#35; &#1234; &#992; &#0;")
     assert_node(result, [nodes.document, nodes.paragraph, "# Ӓ Ϡ �"])
+
+
+def test_example_316():
+    result = publish("&#X22; &#XD06; &#xcab;")
+    assert_node(result, [nodes.document, nodes.paragraph, '" ആ ಫ'])
