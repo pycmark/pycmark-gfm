@@ -15,6 +15,8 @@ from pycmark.inlineparser import PatternInlineProcessor
 from pycmark.readers import TextReader
 from pycmark.utils import entitytrans
 
+from pycmark_gfm import addnodes
+
 
 # 6.2 Entity and numeric character references
 class EntityReferenceProcessor(PatternInlineProcessor):
@@ -24,4 +26,14 @@ class EntityReferenceProcessor(PatternInlineProcessor):
     def run(self, reader: TextReader, document: Element) -> bool:
         text = reader.consume(self.pattern).group(0)
         document += Text(entitytrans._unescape(text))
+        return True
+
+
+# 6.5 Strikethrough
+class StrikethroughProcessor(PatternInlineProcessor):
+    pattern = re.compile(r'(~~)')
+
+    def run(self, reader: TextReader, document: Element) -> bool:
+        reader.consume(self.pattern)
+        document += addnodes.strikethrough()
         return True

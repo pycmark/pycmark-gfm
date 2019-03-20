@@ -30,3 +30,18 @@ def test_example_317():
                                                            "&#987654321;\n"
                                                            "&#abcdef0;\n"
                                                            "&ThisIsNotDefined; &hi?;")])
+
+
+def test_example_472():
+    result = publish("~~Hi~~ Hello, world!")
+    assert_node(result, [nodes.document, nodes.paragraph, ([nodes.inline, "Hi"],
+                                                           " Hello, world!")])
+
+
+def test_example_473():
+    text = ("This ~~has a\n"
+            "\n"
+            "new paragraph~~.\n")
+    result = publish(text)
+    assert_node(result, [nodes.document, ([nodes.paragraph, "This ~~has a"],
+                                          [nodes.paragraph, "new paragraph~~."])])
