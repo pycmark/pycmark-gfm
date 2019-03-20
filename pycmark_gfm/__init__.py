@@ -14,13 +14,7 @@ from docutils import nodes
 from docutils.parsers import Parser
 from docutils.transforms import Transform
 from pycmark.blockparser import BlockParser, BlockProcessor
-from pycmark.blockparser.container_processors import (
-    BlockQuoteProcessor,
-    BulletListProcessor,
-    NonEmptyBulletListProcessor,
-    OrderedListProcessor,
-    OneBasedOrderedListProcessor,
-)
+from pycmark.blockparser.container_processors import BlockQuoteProcessor
 from pycmark.blockparser.html_processors import (
     ScriptHTMLBlockProcessor,
     CommentHTMLBlockProcessor,
@@ -69,6 +63,12 @@ from pycmark.transforms import (
     TextNodeConnector,
 )
 
+from pycmark_gfm.blockparser.container_processors import (
+    BulletListProcessor,
+    NonEmptyBulletListProcessor,
+    OrderedListProcessor,
+    OneBasedOrderedListProcessor,
+)
 from pycmark_gfm.blockparser.table_processors import TableProcessor
 
 
