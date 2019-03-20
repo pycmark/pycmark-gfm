@@ -46,7 +46,6 @@ from pycmark.inlineparser.link_processors import (
 )
 from pycmark.inlineparser.std_processors import (
     BackslashEscapeProcessor,
-    EntityReferenceProcessor,
     CodeSpanProcessor,
     EmphasisProcessor,
     URIAutolinkProcessor,
@@ -70,6 +69,7 @@ from pycmark.transforms import (
 )
 
 from pycmark_gfm.blockparser.table_processors import TableProcessor
+from pycmark_gfm.inlineparser.std_processors import EntityReferenceProcessor
 
 
 class GFMParser(Parser):
