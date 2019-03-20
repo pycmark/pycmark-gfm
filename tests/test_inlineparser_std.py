@@ -18,3 +18,15 @@ def test_example_315():
 def test_example_316():
     result = publish("&#X22; &#XD06; &#xcab;")
     assert_node(result, [nodes.document, nodes.paragraph, '" ആ ಫ'])
+
+
+def test_example_317():
+    text = ("&nbsp &x; &#; &#x;\n"
+            "&#987654321;\n"
+            "&#abcdef0;\n"
+            "&ThisIsNotDefined; &hi?;")
+    result = publish(text)
+    assert_node(result, [nodes.document, nodes.paragraph, ("&nbsp &x; &#; &#x;\n"
+                                                           "&#987654321;\n"
+                                                           "&#abcdef0;\n"
+                                                           "&ThisIsNotDefined; &hi?;")])
