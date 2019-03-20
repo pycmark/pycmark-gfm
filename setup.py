@@ -33,7 +33,7 @@ setup(
     python_requires=">=3.7",
     packages=find_packages(exclude=['tests']),
     install_requires=[
-        'pycmark>=0.9.2',
+        'pycmark>=0.9.3',
     ],
     extras_require={
         'test': [
