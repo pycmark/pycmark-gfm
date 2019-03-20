@@ -34,10 +34,7 @@ from pycmark.blockparser.std_processors import (
     ParagraphProcessor,
 )
 from pycmark.inlineparser import InlineProcessor
-from pycmark.inlineparser.link_processors import (
-    LinkOpenerProcessor,
-    LinkCloserProcessor,
-)
+from pycmark.inlineparser.link_processors import LinkOpenerProcessor
 from pycmark.inlineparser.std_processors import (
     BackslashEscapeProcessor,
     CodeSpanProcessor,
@@ -69,6 +66,7 @@ from pycmark_gfm.blockparser.container_processors import (
     OneBasedOrderedListProcessor,
 )
 from pycmark_gfm.blockparser.table_processors import TableProcessor
+from pycmark_gfm.inlineparser.link_processors import LinkCloserProcessor
 from pycmark_gfm.inlineparser.std_processors import EntityReferenceProcessor
 
 
