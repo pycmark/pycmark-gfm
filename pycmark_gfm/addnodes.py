@@ -11,6 +11,11 @@
 from docutils.nodes import Element
 
 
+class checkbox(Element):
+    """A node reprents a checkbox for task list item."""
+    pass
+
+
 class strikethrough(Element):
     """A node reprents a marker for strikethrough."""
 

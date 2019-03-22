@@ -9,6 +9,41 @@
 from docutils import nodes
 from utils import publish, assert_node
 
+from pycmark_gfm import addnodes
+
+
+def test_example_272():
+    text = ("- [ ] foo\n"
+            "- [x] bar\n")
+    result = publish(text)
+    assert_node(result, [nodes.document, nodes.bullet_list, ([nodes.list_item, (addnodes.checkbox,
+                                                                                " foo")],
+                                                             [nodes.list_item, (addnodes.checkbox,
+                                                                                " bar")])])
+    assert_node(result[0][0][0], addnodes.checkbox, checked=False)
+    assert_node(result[0][1][0], addnodes.checkbox, checked=True)
+
+
+def test_example_273():
+    text = ("- [x] foo\n"
+            "  - [ ] bar\n"
+            "  - [x] baz\n"
+            "- [ ] bim\n")
+    result = publish(text)
+    assert_node(result, [nodes.document, nodes.bullet_list, ([nodes.list_item, (addnodes.checkbox,
+                                                                                " foo",
+                                                                                nodes.bullet_list)],
+                                                             [nodes.list_item, (addnodes.checkbox,
+                                                                                " bim")])])
+    assert_node(result[0][0][2], [nodes.bullet_list, ([nodes.list_item, (addnodes.checkbox,
+                                                                         " bar")],
+                                                      [nodes.list_item, (addnodes.checkbox,
+                                                                         " baz")])])
+    assert_node(result[0][0][0], addnodes.checkbox, checked=True)
+    assert_node(result[0][0][2][0][0], addnodes.checkbox, checked=False)
+    assert_node(result[0][0][2][1][0], addnodes.checkbox, checked=True)
+    assert_node(result[0][1][0], addnodes.checkbox, checked=False)
+
 
 def test_example_315():
     result = publish("&#35; &#1234; &#992; &#0;")
