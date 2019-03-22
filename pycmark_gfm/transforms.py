@@ -38,3 +38,16 @@ class StrikethroughConverter(Transform):
         for node in markers:
             marker = str(node)
             node.replace_self(Text(marker, marker))
+
+
+class TaskListItemConverter(Transform):
+    default_priority = 500
+
+    def apply(self, **kwargs) -> None:
+        for node in self.document.traverse(addnodes.checkbox):
+            if node['checked']:
+                html = '<input checked="" disabled="" type=checkbox" />'
+            else:
+                html = '<input disabled="" type=checkbox" />'
+
+            node.replace_self(nodes.raw('', html, format='html'))
