@@ -8,10 +8,12 @@
     :license: Apache License 2.0, see LICENSE for details.
 """
 
+import re
+
 from docutils import nodes
 from docutils.nodes import Element, Text, TextElement
 from docutils.transforms import Transform
-from pycmark.utils import transplant_nodes
+from pycmark.utils import ATTRIBUTE, transplant_nodes
 
 from pycmark_gfm import addnodes
 
@@ -51,3 +53,16 @@ class TaskListItemConverter(Transform):
                 html = '<input disabled="" type=checkbox" />'
 
             node.replace_self(nodes.raw('', html, format='html'))
+
+
+class DisallowedRawHTMLTransform(Transform):
+    default_priority = 500
+    DISALLOWED_TAGS = (r'<((?:title|textarea|style|xmp|iframe|noembed|noframes|script|plaintext)' +
+                       ATTRIBUTE + r'*\s*/?>)')
+    pattern = re.compile(DISALLOWED_TAGS, re.I)
+
+    def apply(self, **kwargs) -> None:
+        for node in self.document.traverse(nodes.raw):
+            if node['format'] == 'html':
+                text = self.pattern.sub(r'&lt;\1', node.astext())
+                node[0] = nodes.Text(text)

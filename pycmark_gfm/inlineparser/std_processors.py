@@ -14,7 +14,7 @@ from docutils import nodes
 from docutils.nodes import Element, Text
 from pycmark.inlineparser import PatternInlineProcessor
 from pycmark.readers import TextReader
-from pycmark.utils import entitytrans
+from pycmark.utils import ATTRIBUTE, entitytrans
 
 from pycmark_gfm import addnodes
 
@@ -51,4 +51,15 @@ class StrikethroughProcessor(PatternInlineProcessor):
     def run(self, reader: TextReader, document: Element) -> bool:
         reader.consume(self.pattern)
         document += addnodes.strikethrough()
+        return True
+
+
+# 6.11 Disallowed Raw HTML
+class DisallowedRawHTMLProcessor(PatternInlineProcessor):
+    DISALLOWED_TAGS = r'<(?:title|textarea|style|xmp|iframe|noembed|noframes|script|plaintext)' + ATTRIBUTE + r'*\s*/?>'
+    pattern = re.compile(DISALLOWED_TAGS, re.I)
+
+    def run(self, reader: TextReader, document: Element) -> bool:
+        tag = reader.consume(self.pattern).group(0)
+        document += Text(tag, tag)
         return True

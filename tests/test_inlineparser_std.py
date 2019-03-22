@@ -80,3 +80,18 @@ def test_example_473():
     result = publish(text)
     assert_node(result, [nodes.document, ([nodes.paragraph, "This ~~has a"],
                                           [nodes.paragraph, "new paragraph~~."])])
+
+
+def test_example_631():
+    text = ("<strong> <title> <style> <em>\n"
+            "\n"
+            "<blockquote>\n"
+            "  <xmp> is disallowed.  <XMP> is also disallowed.\n"
+            "</blockquote>\n")
+    result = publish(text)
+    assert_node(result, [nodes.document, ([nodes.paragraph, ([nodes.raw, "<strong>"],
+                                                             " <title> <style> ",
+                                                             [nodes.raw, "<em>"])],
+                                          [nodes.raw, ("<blockquote>\n"
+                                                       "  &lt;xmp> is disallowed.  &lt;XMP> is also disallowed.\n"
+                                                       "</blockquote>\n")])])

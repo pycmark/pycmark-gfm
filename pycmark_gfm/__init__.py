@@ -68,11 +68,13 @@ from pycmark_gfm.blockparser.container_processors import (
 from pycmark_gfm.blockparser.table_processors import TableProcessor
 from pycmark_gfm.inlineparser.link_processors import LinkCloserProcessor
 from pycmark_gfm.inlineparser.std_processors import (
+    DisallowedRawHTMLProcessor,
     EntityReferenceProcessor,
     StrikethroughProcessor,
     TaskListItemProcessor,
 )
 from pycmark_gfm.transforms import (
+    DisallowedRawHTMLTransform,
     StrikethroughConverter,
     TaskListItemConverter,
 )
@@ -120,6 +122,7 @@ class GFMParser(Parser):
             LinkCloserProcessor,
             URIAutolinkProcessor,
             EmailAutolinkProcessor,
+            DisallowedRawHTMLProcessor,
             RawHTMLProcessor,
             HardLinebreakProcessor,  # TODO: docutils does not support hardline break
             StrikethroughProcessor,
@@ -140,6 +143,7 @@ class GFMParser(Parser):
             BracketConverter,
             TextNodeConnector,
             TaskListItemConverter,
+            DisallowedRawHTMLTransform,
         ]
 
     def create_block_parser(self) -> BlockParser:
