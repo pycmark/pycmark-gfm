@@ -10,12 +10,27 @@
 
 import re
 
+from docutils import nodes
 from docutils.nodes import Element, Text
 from pycmark.inlineparser import PatternInlineProcessor
 from pycmark.readers import TextReader
 from pycmark.utils import entitytrans
 
 from pycmark_gfm import addnodes
+
+
+# 5.3 Task list items
+class TaskListItemProcessor(PatternInlineProcessor):
+    pattern = re.compile(r'\[([xX ])\](?=\s+)')
+
+    def run(self, reader: TextReader, document: Element) -> bool:
+        if isinstance(document.parent, nodes.list_item) and reader.position == 0:
+            checkmark = reader.consume(self.pattern).group(1)
+            checked = checkmark.lower() == 'x'
+            document += addnodes.checkbox(checked=checked)
+            return True
+        else:
+            return False
 
 
 # 6.2 Entity and numeric character references

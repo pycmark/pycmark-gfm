@@ -11,6 +11,7 @@ from docutils.readers.standalone import Reader
 from pycmark.transforms import LinebreakFilter
 
 from pycmark_gfm import GFMParser
+from pycmark_gfm.transforms import TaskListItemConverter
 
 
 class TestReader(Reader):
@@ -22,6 +23,7 @@ class TestParser(GFMParser):
     def get_transforms(self):
         transforms = super().get_transforms()
         transforms.remove(LinebreakFilter)
+        transforms.remove(TaskListItemConverter)
         return transforms
 
 

@@ -70,8 +70,12 @@ from pycmark_gfm.inlineparser.link_processors import LinkCloserProcessor
 from pycmark_gfm.inlineparser.std_processors import (
     EntityReferenceProcessor,
     StrikethroughProcessor,
+    TaskListItemProcessor,
 )
-from pycmark_gfm.transforms import StrikethroughConverter
+from pycmark_gfm.transforms import (
+    StrikethroughConverter,
+    TaskListItemConverter,
+)
 
 
 class GFMParser(Parser):
@@ -111,6 +115,7 @@ class GFMParser(Parser):
             EntityReferenceProcessor,
             CodeSpanProcessor,
             EmphasisProcessor,
+            TaskListItemProcessor,
             LinkOpenerProcessor,
             LinkCloserProcessor,
             URIAutolinkProcessor,
@@ -134,6 +139,7 @@ class GFMParser(Parser):
             StrikethroughConverter,
             BracketConverter,
             TextNodeConnector,
+            TaskListItemConverter,
         ]
 
     def create_block_parser(self) -> BlockParser:
