@@ -74,6 +74,7 @@ from pycmark_gfm.inlineparser.std_processors import (
     TaskListItemProcessor,
     WWWAutolinkProcessor,
     URLAutolinkProcessor,
+    EmailAutolinkProcessor as ExtendedEmailAutolinkProcessor,
 )
 from pycmark_gfm.transforms import (
     DisallowedRawHTMLTransform,
@@ -130,6 +131,7 @@ class GFMParser(Parser):
             StrikethroughProcessor,
             WWWAutolinkProcessor,
             URLAutolinkProcessor,
+            ExtendedEmailAutolinkProcessor,
         ]
 
     def get_transforms(self) -> List[Type[Transform]]:

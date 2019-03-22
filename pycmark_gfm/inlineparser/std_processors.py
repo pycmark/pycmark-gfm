@@ -95,6 +95,24 @@ class URLAutolinkProcessor(WWWAutolinkProcessor):
         return nodes.reference(uri, uri, refuri=uri)
 
 
+# 6.9 Autolinks
+class EmailAutolinkProcessor(PatternInlineProcessor):
+    pattern = re.compile(r'[a-zA-Z0-9.\-_+]+@[a-zA-Z0-9.\-_]+(\.[a-zA-Z0-9.\-_]+){1,}')
+
+    def run(self, reader: TextReader, document: Element) -> bool:
+        uri = reader.consume(self.pattern).group(0)
+        while uri.endswith('.'):
+            uri = uri[:-1]
+            reader.step(-1)
+
+        if uri.endswith(('-', '_')):
+            reader.step(-len(uri))
+            return False
+
+        document += nodes.reference(uri, uri, refuri='mailto:' + uri)
+        return True
+
+
 # 6.11 Disallowed Raw HTML
 class DisallowedRawHTMLProcessor(PatternInlineProcessor):
     DISALLOWED_TAGS = r'<(?:title|textarea|style|xmp|iframe|noembed|noframes|script|plaintext)' + ATTRIBUTE + r'*\s*/?>'

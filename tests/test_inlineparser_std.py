@@ -170,6 +170,39 @@ def test_example_606():
     assert_node(result[2][1], refuri="ftp://foo.bar.baz")
 
 
+def test_example_607():
+    result = publish("foo@bar.baz")
+    assert_node(result, [nodes.document, nodes.paragraph, nodes.reference, "foo@bar.baz"])
+    assert_node(result[0][0], refuri="mailto:foo@bar.baz")
+
+
+def test_example_608():
+    text = "hello@mail+xyz.example isn't valid, but hello+xyz@mail.example is."
+    result = publish(text)
+    assert_node(result, [nodes.document, nodes.paragraph, ("hello@mail+xyz.example isn't valid, but ",
+                                                           [nodes.reference, "hello+xyz@mail.example"],
+                                                           " is.")])
+    assert_node(result[0][1], refuri="mailto:hello+xyz@mail.example")
+
+
+def test_example_609():
+    text = ("a.b-c_d@a.b\n"
+            "\n"
+            "a.b-c_d@a.b.\n"
+            "\n"
+            "a.b-c_d@a.b-\n"
+            "\n"
+            "a.b-c_d@a.b_\n")
+    result = publish(text)
+    assert_node(result, [nodes.document, ([nodes.paragraph, nodes.reference, "a.b-c_d@a.b"],
+                                          [nodes.paragraph, ([nodes.reference, "a.b-c_d@a.b"],
+                                                             ".")],
+                                          [nodes.paragraph, "a.b-c_d@a.b-"],
+                                          [nodes.paragraph, "a.b-c_d@a.b_"])])
+    assert_node(result[0][0], refuri="mailto:a.b-c_d@a.b")
+    assert_node(result[1][0], refuri="mailto:a.b-c_d@a.b")
+
+
 def test_example_631():
     text = ("<strong> <title> <style> <em>\n"
             "\n"
