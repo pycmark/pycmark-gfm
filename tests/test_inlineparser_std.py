@@ -150,6 +150,26 @@ def test_example_605():
     assert_node(result[0][0], refuri="http://www.commonmark.org/he")
 
 
+def test_example_606():
+    text = ("http://commonmark.org\n"
+            "\n"
+            "(Visit https://encrypted.google.com/search?q=Markup+(business))\n"
+            "\n"
+            "Anonymous FTP is available at ftp://foo.bar.baz.\n")
+    result = publish(text)
+    assert_node(result, ([nodes.paragraph, nodes.reference, "http://commonmark.org"],
+                         [nodes.paragraph, ("(Visit ",
+                                            [nodes.reference,
+                                             "https://encrypted.google.com/search?q=Markup+(business)"],
+                                            ")")],
+                         [nodes.paragraph, ("Anonymous FTP is available at ",
+                                            [nodes.reference, "ftp://foo.bar.baz"],
+                                            ".")]))
+    assert_node(result[0][0], refuri="http://commonmark.org")
+    assert_node(result[1][1], refuri="https://encrypted.google.com/search?q=Markup+(business)")
+    assert_node(result[2][1], refuri="ftp://foo.bar.baz")
+
+
 def test_example_631():
     text = ("<strong> <title> <style> <em>\n"
             "\n"

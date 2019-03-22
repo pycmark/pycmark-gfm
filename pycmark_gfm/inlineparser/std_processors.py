@@ -68,8 +68,11 @@ class WWWAutolinkProcessor(PatternInlineProcessor):
                 uri = uri[:-length]
                 reader.step(-length)
 
-        document += nodes.reference(uri, uri, refuri='http://' + uri)
+        document += self.create_reference_node(uri)
         return True
+
+    def create_reference_node(self, uri: str) -> nodes.reference:
+        return nodes.reference(uri, uri, refuri='http://' + uri)
 
     def get_trailing_punctuation_length(self, uri: str) -> int:
         if re.search(r'[?!.,:*_~]$', uri):
@@ -82,6 +85,14 @@ class WWWAutolinkProcessor(PatternInlineProcessor):
                 return len(matched.group(0))
 
         return 0
+
+
+# 6.9 Autolinks
+class URLAutolinkProcessor(WWWAutolinkProcessor):
+    pattern = re.compile(r'(?:http|https|ftp)://[a-zA-Z0-9_\-]+(\.[a-zA-Z0-9_\-]+){1,}[^ <]*')
+
+    def create_reference_node(self, uri: str) -> nodes.reference:
+        return nodes.reference(uri, uri, refuri=uri)
 
 
 # 6.11 Disallowed Raw HTML

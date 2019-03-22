@@ -73,6 +73,7 @@ from pycmark_gfm.inlineparser.std_processors import (
     StrikethroughProcessor,
     TaskListItemProcessor,
     WWWAutolinkProcessor,
+    URLAutolinkProcessor,
 )
 from pycmark_gfm.transforms import (
     DisallowedRawHTMLTransform,
@@ -128,6 +129,7 @@ class GFMParser(Parser):
             HardLinebreakProcessor,  # TODO: docutils does not support hardline break
             StrikethroughProcessor,
             WWWAutolinkProcessor,
+            URLAutolinkProcessor,
         ]
 
     def get_transforms(self) -> List[Type[Transform]]:
