@@ -54,6 +54,36 @@ class StrikethroughProcessor(PatternInlineProcessor):
         return True
 
 
+# 6.9 Autolinks
+class WWWAutolinkProcessor(PatternInlineProcessor):
+    pattern = re.compile(r'www(\.[a-zA-Z0-9_\-]+){1,}[^ <]*')
+
+    def run(self, reader: TextReader, document: Element) -> bool:
+        uri = reader.consume(self.pattern).group(0)
+        while True:
+            length = self.get_trailing_punctuation_length(uri)
+            if length == 0:
+                break
+            else:
+                uri = uri[:-length]
+                reader.step(-length)
+
+        document += nodes.reference(uri, uri, refuri='http://' + uri)
+        return True
+
+    def get_trailing_punctuation_length(self, uri: str) -> int:
+        if re.search(r'[?!.,:*_~]$', uri):
+            return 1
+        elif uri.endswith(')') and uri.count('(') < uri.count(')'):
+            return 1
+        else:
+            matched = re.search(r'&[a-zA-Z0-9]+;$', uri)
+            if matched:
+                return len(matched.group(0))
+
+        return 0
+
+
 # 6.11 Disallowed Raw HTML
 class DisallowedRawHTMLProcessor(PatternInlineProcessor):
     DISALLOWED_TAGS = r'<(?:title|textarea|style|xmp|iframe|noembed|noframes|script|plaintext)' + ATTRIBUTE + r'*\s*/?>'
