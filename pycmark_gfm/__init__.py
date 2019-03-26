@@ -53,7 +53,6 @@ from pycmark.transforms import (
     BlanklineFilter,
     LinebreakFilter,
     SectionTreeConstructor,
-    LinkReferenceDefinitionDetector,
     InlineTransform,
     SparseTextConverter,
     EmphasisConverter,
@@ -80,6 +79,7 @@ from pycmark_gfm.inlineparser.std_processors import (
 )
 from pycmark_gfm.transforms import (
     DisallowedRawHTMLTransform,
+    LinkReferenceDefinitionDetector,
     StrikethroughConverter,
     TaskListItemConverter,
 )
