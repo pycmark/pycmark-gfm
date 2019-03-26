@@ -48,9 +48,9 @@ class TaskListItemConverter(Transform):
     def apply(self, **kwargs) -> None:
         for node in self.document.traverse(addnodes.checkbox):
             if node['checked']:
-                html = '<input checked="" disabled="" type="checkbox" />'
+                html = '<input checked="checked" disabled="disabled" type="checkbox" />'
             else:
-                html = '<input disabled="" type="checkbox" />'
+                html = '<input disabled="disabled" type="checkbox" />'
 
             node.replace_self(nodes.raw('', html, format='html'))
 
