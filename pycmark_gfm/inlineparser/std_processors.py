@@ -21,6 +21,7 @@ from pycmark_gfm import addnodes
 
 # 5.3 Task list items
 class TaskListItemProcessor(PatternInlineProcessor):
+    priority = 400
     pattern = re.compile(r'\[([xX ])\](?=\s+)')
 
     def run(self, reader: TextReader, document: Element) -> bool:
