@@ -44,6 +44,7 @@ from pycmark.inlineparser.std_processors import (
     EmailAutolinkProcessor,
     RawHTMLProcessor,
     HardLinebreakProcessor,
+    SoftLinebreakProcessor,
 )
 from pycmark.readers import LineReader
 from pycmark.transforms import (
@@ -130,6 +131,7 @@ class GFMParser(Parser):
             DisallowedRawHTMLProcessor,
             RawHTMLProcessor,
             HardLinebreakProcessor,  # TODO: docutils does not support hardline break
+            SoftLinebreakProcessor,
             StrikethroughProcessor,
             WWWAutolinkProcessor,
             URLAutolinkProcessor,
