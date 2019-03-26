@@ -32,4 +32,4 @@ class LinkCloserProcessor(commonmark.LinkCloserProcessor):
 
 class LinkDestinationParser(commonmark.LinkDestinationParser):
     # spaces are allowed inside angle brackets
-    pattern = re.compile(r'\s*<((?:[^ <>\n\\]|' + ESCAPED_CHARS + r'| |\\)*)>', re.S)
+    pattern = re.compile(r'\s*<((?:[^<>\n\\]|' + ESCAPED_CHARS + r'|\\)*)>', re.S)
