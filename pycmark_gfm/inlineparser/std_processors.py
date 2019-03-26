@@ -21,6 +21,7 @@ from pycmark_gfm import addnodes
 
 # 5.3 Task list items
 class TaskListItemProcessor(PatternInlineProcessor):
+    priority = 400
     pattern = re.compile(r'\[([xX ])\](?=\s+)')
 
     def run(self, reader: TextReader, document: Element) -> bool:
@@ -115,6 +116,7 @@ class EmailAutolinkProcessor(PatternInlineProcessor):
 
 # 6.11 Disallowed Raw HTML
 class DisallowedRawHTMLProcessor(PatternInlineProcessor):
+    priority = 200
     DISALLOWED_TAGS = r'<(?:title|textarea|style|xmp|iframe|noembed|noframes|script|plaintext)' + ATTRIBUTE + r'*\s*/?>'
     pattern = re.compile(DISALLOWED_TAGS, re.I)
 
