@@ -27,6 +27,7 @@ from pycmark.blockparser.html_processors import (
 from pycmark.blockparser.std_processors import (
     ThematicBreakProcessor,
     ATXHeadingProcessor,
+    SetextHeadingProcessor,
     IndentedCodeBlockProcessor,
     BlankLineProcessor,
     BacktickFencedCodeBlockProcessor,
@@ -93,6 +94,7 @@ class GFMParser(Parser):
         return [
             ThematicBreakProcessor,
             ATXHeadingProcessor,
+            SetextHeadingProcessor,
             IndentedCodeBlockProcessor,
             BlankLineProcessor,
             BacktickFencedCodeBlockProcessor,
