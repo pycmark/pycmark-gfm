@@ -21,7 +21,6 @@ from pycmark.blockparser.html_processors import (
     ProcessingInstructionHTMLBlockProcessor,
     DeclarationHTMLBlockProcessor,
     CdataHTMLBlockProcessor,
-    StandardTagsHTMLBlockProcessor,
     CompleteTagsHTMLBlockProcessor,
 )
 from pycmark.blockparser.std_processors import (
@@ -66,6 +65,7 @@ from pycmark_gfm.blockparser.container_processors import (
     OrderedListProcessor,
     OneBasedOrderedListProcessor,
 )
+from pycmark_gfm.blockparser.html_processors import StandardTagsHTMLBlockProcessor
 from pycmark_gfm.blockparser.table_processors import TableProcessor
 from pycmark_gfm.inlineparser.link_processors import LinkCloserProcessor
 from pycmark_gfm.inlineparser.std_processors import (
