@@ -67,6 +67,11 @@ def test_example_317():
                                                            "&ThisIsNotDefined; &hi?;")])
 
 
+def test_example_404():
+    result = publish("*foo**bar*")
+    assert_node(result, [nodes.document, nodes.paragraph, nodes.emphasis, "foo**bar"])
+
+
 def test_example_472():
     result = publish("~~Hi~~ Hello, world!")
     assert_node(result, [nodes.document, nodes.paragraph, ([nodes.inline, "Hi"],
