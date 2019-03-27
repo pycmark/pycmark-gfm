@@ -6,7 +6,7 @@ with open('README.md') as f:
 
 setup(
     name='pycmark-gfm',
-    version='0.1.0',
+    version='0.9.0',
     url='https://github.com/tk0miya/pycmark-gfm',
     download_url='https://pypi.org/project/pycmark-gfm',
     license='Apache License 2.0',
