@@ -14,7 +14,7 @@ from docutils import nodes
 from docutils.nodes import Element, Text
 from pycmark.inlineparser import PatternInlineProcessor
 from pycmark.readers import TextReader
-from pycmark.utils import ATTRIBUTE, entitytrans
+from pycmark.utils import ATTRIBUTE
 
 from pycmark_gfm import addnodes
 
