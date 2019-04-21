@@ -104,7 +104,10 @@ class SmartHTMLTranslator(HTMLTranslator):
         self.body.append('\n<tbody>')
 
     def depart_tbody(self, node):
-        self.body.append('</tbody>')
+        self.body.append('\n</tbody>')
+
+    def depart_table(self, node):
+        self.body.append('\n</table>\n')
 
     def visit_enumerated_list(self, node):
         if node.get('start') != 1:

@@ -13,15 +13,15 @@ import html5lib
 
 
 BLACKLIST = [
-    'example-138',
-    'example-139',
     'example-140',
-    'example-143',
+    'example-141',
+    'example-142',
     'example-145',
-    'example-588',
-    'example-594',
-    'example-597',
-    'example-598',
+    'example-147',
+    'example-610',
+    'example-616',
+    'example-619',
+    'example-620',
 ]
 
 

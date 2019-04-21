@@ -14,7 +14,7 @@ from docutils import nodes
 from docutils.nodes import Element, Text
 from pycmark.inlineparser import PatternInlineProcessor
 from pycmark.readers import TextReader
-from pycmark.utils import ATTRIBUTE, entitytrans
+from pycmark.utils import ATTRIBUTE
 
 from pycmark_gfm import addnodes
 
@@ -32,17 +32,6 @@ class TaskListItemProcessor(PatternInlineProcessor):
             return True
         else:
             return False
-
-
-# 6.2 Entity and numeric character references
-class EntityReferenceProcessor(PatternInlineProcessor):
-    # Shorten length a length of HTML entities than CommonMark
-    pattern = re.compile(r'&(?:\w{1,32}|#\d{1,7}|#[xX][0-9A-Fa-f]{1,6});')
-
-    def run(self, reader: TextReader, document: Element) -> bool:
-        text = reader.consume(self.pattern).group(0)
-        document += Text(entitytrans._unescape(text))
-        return True
 
 
 # 6.5 Strikethrough
