@@ -11,68 +11,16 @@
 from typing import List, Type
 
 from docutils import nodes
-from docutils.parsers import Parser
 from docutils.transforms import Transform
-from pycmark.blockparser import BlockParser, BlockProcessor
-from pycmark.blockparser.container_processors import (
-    BlockQuoteProcessor,
-    BulletListProcessor,
-    NonEmptyBulletListProcessor,
-    OrderedListProcessor,
-    OneBasedOrderedListProcessor,
-)
-from pycmark.blockparser.html_processors import (
-    ScriptHTMLBlockProcessor,
-    CommentHTMLBlockProcessor,
-    ProcessingInstructionHTMLBlockProcessor,
-    DeclarationHTMLBlockProcessor,
-    CdataHTMLBlockProcessor,
-    CompleteTagsHTMLBlockProcessor,
-)
-from pycmark.blockparser.link_processors import (
-    LinkReferenceDefinitionProcessor
-)
-from pycmark.blockparser.std_processors import (
-    ThematicBreakProcessor,
-    ATXHeadingProcessor,
-    SetextHeadingProcessor,
-    IndentedCodeBlockProcessor,
-    BlankLineProcessor,
-    BacktickFencedCodeBlockProcessor,
-    TildeFencedCodeBlockProcessor,
-    ParagraphProcessor,
-)
+from pycmark import CommonMarkParser
+from pycmark.blockparser import BlockProcessor
+from pycmark.blockparser.html_processors import StandardTagsHTMLBlockProcessor
 from pycmark.inlineparser import InlineProcessor
-from pycmark.inlineparser.link_processors import (
-    LinkOpenerProcessor,
-    LinkCloserProcessor
-)
-from pycmark.inlineparser.std_processors import (
-    BackslashEscapeProcessor,
-    EntityReferenceProcessor,
-    CodeSpanProcessor,
-    EmphasisProcessor,
-    URIAutolinkProcessor,
-    EmailAutolinkProcessor,
-    RawHTMLProcessor,
-    HardLinebreakProcessor,
-    SoftLinebreakProcessor,
-)
 from pycmark.readers import LineReader
-from pycmark.transforms import (
-    TightListsDetector,
-    TightListsCompactor,
-    BlanklineFilter,
-    LinebreakFilter,
-    SectionTreeConstructor,
-    InlineTransform,
-    SparseTextConverter,
-    EmphasisConverter,
-    BracketConverter,
-    TextNodeConnector,
-)
 
-from pycmark_gfm.blockparser.html_processors import StandardTagsHTMLBlockProcessor
+from pycmark_gfm.blockparser.html_processors import (
+    StandardTagsHTMLBlockProcessor as StandardTagsHTMLBlockProcessorEx
+)
 from pycmark_gfm.blockparser.table_processors import TableProcessor
 from pycmark_gfm.inlineparser.std_processors import (
     DisallowedRawHTMLProcessor,
@@ -80,7 +28,7 @@ from pycmark_gfm.inlineparser.std_processors import (
     TaskListItemProcessor,
     WWWAutolinkProcessor,
     URLAutolinkProcessor,
-    EmailAutolinkProcessor as ExtendedEmailAutolinkProcessor,
+    EmailAutolinkProcessor,
 )
 from pycmark_gfm.transforms import (
     DisallowedRawHTMLTransform,
@@ -89,87 +37,36 @@ from pycmark_gfm.transforms import (
 )
 
 
-class GFMParser(Parser):
+class GFMParser(CommonMarkParser):
     """GitHub Flavored Markdown parser for docutils."""
 
     supported = ('markdown', 'md')
 
     def get_block_processors(self) -> List[Type[BlockProcessor]]:
         """Returns block processors. Overrided by subclasses."""
-        return [
-            ThematicBreakProcessor,
-            ATXHeadingProcessor,
-            SetextHeadingProcessor,
-            IndentedCodeBlockProcessor,
-            BlankLineProcessor,
-            BacktickFencedCodeBlockProcessor,
-            TildeFencedCodeBlockProcessor,
-            ScriptHTMLBlockProcessor,
-            CommentHTMLBlockProcessor,
-            ProcessingInstructionHTMLBlockProcessor,
-            DeclarationHTMLBlockProcessor,
-            CdataHTMLBlockProcessor,
-            StandardTagsHTMLBlockProcessor,
-            CompleteTagsHTMLBlockProcessor,
-            BlockQuoteProcessor,
-            BulletListProcessor,
-            NonEmptyBulletListProcessor,
-            OrderedListProcessor,
-            OneBasedOrderedListProcessor,
-            TableProcessor,
-            LinkReferenceDefinitionProcessor,
-            ParagraphProcessor,
-        ]
+        processors = super().get_block_processors()
+        processors.remove(StandardTagsHTMLBlockProcessor)
+        processors.append(StandardTagsHTMLBlockProcessorEx)
+        processors.append(TableProcessor)
+        return processors
 
     def get_inline_processors(self) -> List[Type[InlineProcessor]]:
         """Returns inline processors. Overrided by subclasses."""
-        return [
-            BackslashEscapeProcessor,
-            EntityReferenceProcessor,
-            CodeSpanProcessor,
-            EmphasisProcessor,
-            TaskListItemProcessor,
-            LinkOpenerProcessor,
-            LinkCloserProcessor,
-            URIAutolinkProcessor,
-            EmailAutolinkProcessor,
-            DisallowedRawHTMLProcessor,
-            RawHTMLProcessor,
-            HardLinebreakProcessor,  # TODO: docutils does not support hardline break
-            SoftLinebreakProcessor,
-            StrikethroughProcessor,
-            WWWAutolinkProcessor,
-            URLAutolinkProcessor,
-            ExtendedEmailAutolinkProcessor,
-        ]
+        processors = super().get_inline_processors()
+        processors.append(DisallowedRawHTMLProcessor)
+        processors.append(EmailAutolinkProcessor)
+        processors.append(StrikethroughProcessor)
+        processors.append(TaskListItemProcessor)
+        processors.append(URLAutolinkProcessor)
+        processors.append(WWWAutolinkProcessor)
+        return processors
 
     def get_transforms(self) -> List[Type[Transform]]:
-        return [
-            TightListsDetector,
-            TightListsCompactor,
-            BlanklineFilter,
-            LinebreakFilter,
-            SectionTreeConstructor,
-            InlineTransform,
-            SparseTextConverter,
-            EmphasisConverter,
-            StrikethroughConverter,
-            BracketConverter,
-            TextNodeConnector,
-            TaskListItemConverter,
-            DisallowedRawHTMLTransform,
-        ]
-
-    def create_block_parser(self) -> BlockParser:
-        """Creates a block parser and returns it.
-
-        Internally, ``get_block_processors()`` is called to create a parser.
-        So you can change the processors by subclassing.
-        """
-        parser = BlockParser()
-        for processor in self.get_block_processors():
-            parser.add_processor(processor(parser))
-        return parser
+        transforms = super().get_transforms()
+        transforms.append(DisallowedRawHTMLTransform)
+        transforms.append(StrikethroughConverter)
+        transforms.append(TaskListItemConverter)
+        return transforms
 
     def parse(self, inputtext: str, document: nodes.document) -> None:
         """Parses a text and build document."""
