@@ -14,7 +14,13 @@ from docutils import nodes
 from docutils.parsers import Parser
 from docutils.transforms import Transform
 from pycmark.blockparser import BlockParser, BlockProcessor
-from pycmark.blockparser.container_processors import BlockQuoteProcessor
+from pycmark.blockparser.container_processors import (
+    BlockQuoteProcessor,
+    BulletListProcessor,
+    NonEmptyBulletListProcessor,
+    OrderedListProcessor,
+    OneBasedOrderedListProcessor,
+)
 from pycmark.blockparser.html_processors import (
     ScriptHTMLBlockProcessor,
     CommentHTMLBlockProcessor,
@@ -37,9 +43,13 @@ from pycmark.blockparser.std_processors import (
     ParagraphProcessor,
 )
 from pycmark.inlineparser import InlineProcessor
-from pycmark.inlineparser.link_processors import LinkOpenerProcessor
+from pycmark.inlineparser.link_processors import (
+    LinkOpenerProcessor,
+    LinkCloserProcessor
+)
 from pycmark.inlineparser.std_processors import (
     BackslashEscapeProcessor,
+    EntityReferenceProcessor,
     CodeSpanProcessor,
     EmphasisProcessor,
     URIAutolinkProcessor,
@@ -62,18 +72,10 @@ from pycmark.transforms import (
     TextNodeConnector,
 )
 
-from pycmark_gfm.blockparser.container_processors import (
-    BulletListProcessor,
-    NonEmptyBulletListProcessor,
-    OrderedListProcessor,
-    OneBasedOrderedListProcessor,
-)
 from pycmark_gfm.blockparser.html_processors import StandardTagsHTMLBlockProcessor
 from pycmark_gfm.blockparser.table_processors import TableProcessor
-from pycmark_gfm.inlineparser.link_processors import LinkCloserProcessor
 from pycmark_gfm.inlineparser.std_processors import (
     DisallowedRawHTMLProcessor,
-    EntityReferenceProcessor,
     StrikethroughProcessor,
     TaskListItemProcessor,
     WWWAutolinkProcessor,

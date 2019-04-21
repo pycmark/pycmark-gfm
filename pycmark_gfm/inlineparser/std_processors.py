@@ -34,17 +34,6 @@ class TaskListItemProcessor(PatternInlineProcessor):
             return False
 
 
-# 6.2 Entity and numeric character references
-class EntityReferenceProcessor(PatternInlineProcessor):
-    # Shorten length a length of HTML entities than CommonMark
-    pattern = re.compile(r'&(?:\w{1,32}|#\d{1,7}|#[xX][0-9A-Fa-f]{1,6});')
-
-    def run(self, reader: TextReader, document: Element) -> bool:
-        text = reader.consume(self.pattern).group(0)
-        document += Text(entitytrans._unescape(text))
-        return True
-
-
 # 6.5 Strikethrough
 class StrikethroughProcessor(PatternInlineProcessor):
     pattern = re.compile(r'(~~)')
