@@ -23,6 +23,9 @@ from pycmark.blockparser.html_processors import (
     CdataHTMLBlockProcessor,
     CompleteTagsHTMLBlockProcessor,
 )
+from pycmark.blockparser.link_processors import (
+    LinkReferenceDefinitionProcessor
+)
 from pycmark.blockparser.std_processors import (
     ThematicBreakProcessor,
     ATXHeadingProcessor,
@@ -79,7 +82,6 @@ from pycmark_gfm.inlineparser.std_processors import (
 )
 from pycmark_gfm.transforms import (
     DisallowedRawHTMLTransform,
-    LinkReferenceDefinitionDetector,
     StrikethroughConverter,
     TaskListItemConverter,
 )
@@ -113,6 +115,7 @@ class GFMParser(Parser):
             OrderedListProcessor,
             OneBasedOrderedListProcessor,
             TableProcessor,
+            LinkReferenceDefinitionProcessor,
             ParagraphProcessor,
         ]
 
@@ -145,7 +148,6 @@ class GFMParser(Parser):
             BlanklineFilter,
             LinebreakFilter,
             SectionTreeConstructor,
-            LinkReferenceDefinitionDetector,
             InlineTransform,
             SparseTextConverter,
             EmphasisConverter,

@@ -17,6 +17,7 @@ from docutils.transforms import Transform
 from pycmark.inlineparser import backtrack_onerror
 from pycmark.inlineparser.link_processors import LinkTitleParser
 from pycmark.readers import TextReader
+from pycmark.transforms import TextNodeConnector
 from pycmark.utils import ATTRIBUTE, ESCAPED_CHARS, normalize_link_label, transplant_nodes
 
 from pycmark_gfm import addnodes
@@ -39,6 +40,9 @@ class StrikethroughConverter(Transform):
                 closer.parent.remove(closer)
 
             self.deactivate_markers(node)
+
+        # invoke TextNodeConnector after the processing
+        self.document.transformer.add_transform(TextNodeConnector)
 
     def deactivate_markers(self, node: Element) -> None:
         markers = list(n for n in node.children if isinstance(n, addnodes.strikethrough))
