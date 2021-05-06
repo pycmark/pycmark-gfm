@@ -45,6 +45,7 @@ class SmartHTMLTranslator(HTMLTranslator):
     def __init__(self, document):
         super().__init__(document)
         self.in_strikethrough = False
+        self.initial_header_level = 1
 
     def depart_Text(self, node):
         pos = node.parent.index(node)
