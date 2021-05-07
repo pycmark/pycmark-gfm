@@ -1,0 +1,22 @@
+name: Commonmark Spec
+
+on:
+  push:
+  pull_request:
+  schedule:
+  - cron: "0 0 * * SUN"
+
+jobs:
+  spec:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.7
+    - name: Install dependencies
+      run:  pip install -U tox
+    - name: Run Tox
+      run:  tox -e htmlspec
