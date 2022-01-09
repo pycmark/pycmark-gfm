@@ -10,9 +10,9 @@
 
 from typing import List, Type
 
+import pycmark
 from docutils import nodes
 from docutils.transforms import Transform
-from pycmark import CommonMarkParser
 from pycmark.blockparser import BlockProcessor
 from pycmark.blockparser.html_processors import StandardTagsHTMLBlockProcessor
 from pycmark.inlineparser import InlineProcessor
@@ -37,7 +37,7 @@ from pycmark_gfm.transforms import (
 )
 
 
-class GFMParser(CommonMarkParser):
+class Parser(pycmark.Parser):
     """GitHub Flavored Markdown parser for docutils."""
 
     supported = ('markdown', 'md')

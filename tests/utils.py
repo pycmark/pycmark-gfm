@@ -10,7 +10,7 @@ from docutils.core import publish_doctree
 from docutils.readers.standalone import Reader
 from pycmark.transforms import LinebreakFilter
 
-from pycmark_gfm import GFMParser
+from pycmark_gfm import Parser
 from pycmark_gfm.transforms import TaskListItemConverter
 
 from sphinx import assert_node  # NOQA
@@ -21,7 +21,7 @@ class TestReader(Reader):
         return []  # skip all of transforms!
 
 
-class TestParser(GFMParser):
+class TestParser(Parser):
     def get_transforms(self):
         transforms = super().get_transforms()
         transforms.remove(LinebreakFilter)
