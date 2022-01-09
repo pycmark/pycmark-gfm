@@ -19,7 +19,7 @@ from docutils.writers.html5_polyglot import Writer, HTMLTranslator
 from pycmark.transforms import LinebreakFilter, SectionTreeConstructor
 
 from pycmark_gfm import addnodes
-from pycmark_gfm import GFMParser
+from pycmark_gfm import Parser
 from pycmark_gfm.inlineparser.std_processors import DisallowedRawHTMLProcessor
 from pycmark_gfm.transforms import TaskListItemConverter
 
@@ -212,7 +212,7 @@ class DisabledRawHTMLTransform(Transform):
                 text.parent.replace(text, nodes.raw('', html, format='html'))
 
 
-class TestGFMParser(GFMParser):
+class TestGFMParser(Parser):
     def get_transforms(self):
         transforms = super().get_transforms()
         transforms.remove(LinebreakFilter)
