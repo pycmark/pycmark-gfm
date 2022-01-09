@@ -206,7 +206,7 @@ class DisabledRawHTMLTransform(Transform):
 
     def apply(self, **kwargs):
         pattern = re.compile(DisallowedRawHTMLProcessor.DISALLOWED_TAGS)
-        for text in self.document.traverse(nodes.Text):
+        for text in list(self.document.findall(nodes.Text)):
             if pattern.match(text):
                 html = '&lt;' + text[1:]
                 text.parent.replace(text, nodes.raw('', html, format='html'))

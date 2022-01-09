@@ -23,7 +23,7 @@ class StrikethroughConverter(Transform):
     default_priority = 900
 
     def apply(self, **kwargs) -> None:
-        for node in self.document.traverse(TextElement):
+        for node in list(self.document.findall(TextElement)):
             markers = list(n for n in node.children if isinstance(n, addnodes.strikethrough))
             while len(markers) >= 2:
                 opener = markers.pop(0)
@@ -50,7 +50,7 @@ class TaskListItemConverter(Transform):
     default_priority = 500
 
     def apply(self, **kwargs) -> None:
-        for node in self.document.traverse(addnodes.checkbox):
+        for node in list(self.document.findall(addnodes.checkbox)):
             if node['checked']:
                 html = '<input checked="checked" disabled="disabled" type="checkbox" />'
             else:
@@ -66,7 +66,7 @@ class DisallowedRawHTMLTransform(Transform):
     pattern = re.compile(DISALLOWED_TAGS, re.I)
 
     def apply(self, **kwargs) -> None:
-        for node in self.document.traverse(nodes.raw):
+        for node in self.document.findall(nodes.raw):
             if node['format'] == 'html':
                 text = self.pattern.sub(r'&lt;\1', node.astext())
                 node[0] = nodes.Text(text)
