@@ -111,5 +111,5 @@ class DisallowedRawHTMLProcessor(PatternInlineProcessor):
 
     def run(self, reader: TextReader, document: Element) -> bool:
         tag = reader.consume(self.pattern).group(0)
-        document += Text(tag, tag)
+        document += Text(tag)
         return True

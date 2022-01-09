@@ -43,7 +43,7 @@ class StrikethroughConverter(Transform):
         markers = list(n for n in node.children if isinstance(n, addnodes.strikethrough))
         for node in markers:
             marker = str(node)
-            node.replace_self(Text(marker, marker))
+            node.replace_self(Text(marker))
 
 
 class TaskListItemConverter(Transform):
